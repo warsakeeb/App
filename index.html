@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ramadan Tracker by WAR SAKEEB</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -526,6 +528,15 @@
 
         // Start
         initializeApp(); setInterval(updateClock, 1000);
+        // Offline Service Worker Setup
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('App is ready for offline use!'))
+            .catch(err => console.log('Offline setup failed: ', err));
+    });
+}
+
     </script>
 </body>
 </html>
