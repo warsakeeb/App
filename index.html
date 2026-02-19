@@ -12,7 +12,7 @@
             --card-bg: rgba(255, 255, 255, 0.95);
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --accent: #059669; /* Premium Emerald */
+            --accent: #059669; 
             --accent-light: #d1fae5;
             --shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
             --border-color: rgba(0, 0, 0, 0.04);
@@ -21,141 +21,102 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-grad);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px 20px 100px 20px;
-            overflow-x: hidden;
-            background-attachment: fixed;
+            font-family: 'Outfit', sans-serif; background: var(--bg-grad); color: var(--text-main);
+            display: flex; justify-content: center; min-height: 100vh; padding: 20px 20px 100px 20px;
+            overflow-x: hidden; background-attachment: fixed;
         }
 
-        .app-container {
-            width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 24px; animation: fadeIn 0.6s ease-out;
-        }
-
+        .app-container { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 24px; animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Header --- */
+        /* Header */
         header { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
-        .greeting h1 { font-size: 1.6rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        .greeting h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
         .greeting p { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
-        .location-chip {
-            background: white; padding: 8px 14px; border-radius: 20px; border: 1px solid rgba(5, 150, 105, 0.1);
-            font-size: 0.75rem; font-weight: 600; color: var(--accent); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.05);
-        }
+        .location-chip { background: white; padding: 8px 14px; border-radius: 20px; border: 1px solid rgba(5, 150, 105, 0.1); font-size: 0.75rem; font-weight: 600; color: var(--accent); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.05); }
 
-        /* --- Hero Timer Card --- */
-        .timer-card {
-            background: white; border: 1px solid var(--border-color); border-radius: 32px; padding: 35px 25px; 
-            text-align: center; box-shadow: var(--shadow); position: relative; overflow: hidden;
-        }
+        /* Timer Card */
+        .timer-card { background: white; border: 1px solid var(--border-color); border-radius: 32px; padding: 35px 25px; text-align: center; box-shadow: var(--shadow); }
         .timer-subtitle { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 2px; margin-bottom: 12px;}
         .timer-display { font-size: 4rem; font-weight: 300; letter-spacing: -2px; color: var(--accent); margin-bottom: 25px; font-variant-numeric: tabular-nums; line-height: 1;}
         .time-split { display: flex; justify-content: center; gap: 50px; border-top: 1px solid #f1f5f9; padding-top: 25px; }
         .time-block span { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
         .time-block strong { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
 
-        /* --- 30 DAY PROGRESS TRACKER --- */
-        .progress-card {
+        /* --- NEW: Adhan Control Card --- */
+        .adhan-card {
             background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px;
-            padding: 22px 25px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
+            padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow);
         }
+        .adhan-info { display: flex; flex-direction: column; gap: 4px; }
+        .adhan-title { font-weight: 700; font-size: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .adhan-desc { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        
+        /* Premium Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e2e8f0; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input:checked + .slider { background-color: var(--accent); box-shadow: 0 0 10px rgba(5, 150, 105, 0.4); }
+        input:checked + .slider:before { transform: translateX(22px); }
+        
+        .btn-test { background: #f1f5f9; border: none; padding: 8px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; color: var(--accent); cursor: pointer; margin-top: 8px; transition: 0.2s;}
+        .btn-test:active { transform: scale(0.95); }
+
+        /* Progress Card */
+        .progress-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 22px 25px; box-shadow: var(--shadow); }
         .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .progress-title { font-weight: 600; color: var(--text-main); font-size: 1.1rem; }
+        .progress-title { font-weight: 600; font-size: 1.1rem; }
         .progress-count { font-size: 0.9rem; color: var(--accent); font-weight: 700; background: var(--accent-light); padding: 5px 12px; border-radius: 12px; }
         .progress-track { height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; border-radius: 10px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; border-radius: 10px; transition: width 1s ease-out; }
 
-        /* --- Premium Unified Tasks List --- */
-        .section-title { font-size: 1.2rem; font-weight: 700; margin-bottom: -5px; color: var(--text-main); padding-left: 5px; }
-        
-        .task-card {
-            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 22px; padding: 18px 22px;
-            display: flex; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);
-        }
+        /* Tasks List */
+        .section-title { font-size: 1.2rem; font-weight: 700; margin-bottom: -5px; padding-left: 5px; }
+        .task-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 22px; padding: 18px 22px; display: flex; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: 0.3s; }
         .task-card input { display: none; }
-        
-        .check-circle {
-            width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid #cbd5e1; margin-right: 18px;
-            display: flex; align-items: center; justify-content: center; transition: 0.3s; background: white; flex-shrink: 0;
-        }
-        .task-text { font-size: 1.1rem; font-weight: 600; color: var(--text-main); transition: 0.3s; flex-grow: 1; }
-        
+        .check-circle { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid #cbd5e1; margin-right: 18px; display: flex; align-items: center; justify-content: center; transition: 0.3s; background: white; flex-shrink: 0; }
+        .task-text { font-size: 1.1rem; font-weight: 600; transition: 0.3s; flex-grow: 1; }
         .time-badge { background: #f1f5f9; color: var(--accent); font-size: 0.85rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; transition: 0.3s; }
         
-        /* Completed State */
+        /* Completed */
         .task-card.completed { background: var(--accent-light); border-color: transparent; transform: scale(0.98); }
         .task-card.completed .check-circle { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px rgba(5, 150, 105, 0.4); }
         .task-card.completed .check-circle::after { content: ''; width: 6px; height: 12px; border: solid white; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); margin-bottom: 2px;}
         .task-card.completed .task-text { color: var(--accent); text-decoration: line-through; opacity: 0.8;}
         .task-card.completed .time-badge { background: transparent; color: var(--accent); opacity: 0.6; padding: 6px 0; }
 
-        /* --- Developer Credit --- */
         .dev-credit { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 15px; margin-bottom: 25px; }
         .dev-credit span { font-weight: 800; color: var(--accent); letter-spacing: 0.5px; }
 
-        /* --- Bottom Navigation --- */
-        .bottom-nav {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
-            display: flex; justify-content: space-around; width: 90%; max-width: 380px;
-            padding: 12px 15px; border-radius: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
-            border: 1px solid rgba(0,0,0,0.05); z-index: 50;
-        }
-        .nav-btn {
-            background: none; border: none; font-family: inherit; font-size: 0.95rem; font-weight: 700;
-            color: var(--text-muted); display: flex; align-items: center; gap: 8px; cursor: pointer; 
-            padding: 12px 24px; border-radius: 25px; transition: 0.3s;
-        }
+        /* Navigation & Modals (Minimized for brevity, identical to your premium setup) */
+        .bottom-nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); display: flex; justify-content: space-around; width: 90%; max-width: 380px; padding: 12px 15px; border-radius: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05); z-index: 50; }
+        .nav-btn { background: none; border: none; font-family: inherit; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px 24px; border-radius: 25px; transition: 0.3s; }
         .nav-btn.active { background: var(--accent-light); color: var(--accent); }
-
-        /* --- Quran Reader --- */
-        #quran-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc;
-            z-index: 100; overflow-y: auto; display: none; flex-direction: column; opacity: 0; transition: 0.3s; padding-bottom: 20px;
-        }
-        .quran-header {
-            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 10;
-        }
+        
+        #quran-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc; z-index: 100; overflow-y: auto; display: none; flex-direction: column; opacity: 0; transition: 0.3s; padding-bottom: 20px; }
+        .quran-header { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 10; }
         .back-btn { background: #f1f5f9; border: none; padding: 10px 18px; border-radius: 14px; font-weight: 700; cursor: pointer; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
         .surah-list { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-        .surah-card {
-            background: white; padding: 20px 24px; border-radius: 20px; box-shadow: var(--shadow);
-            border: 1px solid transparent; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-        }
+        .surah-card { background: white; padding: 20px 24px; border-radius: 20px; box-shadow: var(--shadow); border: 1px solid transparent; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .surah-name-ar { font-size: 1.6rem; font-weight: bold; color: var(--accent); }
         #surah-content { padding: 20px; display: none; background: white; min-height: 100vh; }
         .ayah-block { margin-bottom: 35px; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; }
         .ayah-ar { font-size: 1.9rem; line-height: 2.3; text-align: right; direction: rtl; margin-bottom: 15px; color: var(--text-main); }
         .ayah-en { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; }
 
-        /* --- GAMIFIED ACHIEVEMENT SYSTEM --- */
         .confetti { position: fixed; width: 8px; height: 16px; opacity: 0; z-index: 1999; pointer-events: none; border-radius: 4px; }
-        
-        #achievement-banner {
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: #0f172a; color: white; padding: 14px 24px; border-radius: 50px; display: flex; align-items: center; gap: 18px; 
-            box-shadow: 0 20px 40px rgba(5, 150, 105, 0.4); border: 2px solid var(--accent); z-index: 2000;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 90%; max-width: 380px;
-        }
+        #achievement-banner { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: #0f172a; color: white; padding: 14px 24px; border-radius: 50px; display: flex; align-items: center; gap: 18px; box-shadow: 0 20px 40px rgba(5, 150, 105, 0.4); border: 2px solid var(--accent); z-index: 2000; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 90%; max-width: 380px; }
         #achievement-banner.show { top: 35px; }
-        
-        .achievement-icon {
-            background: var(--accent); width: 42px; height: 42px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-            box-shadow: 0 0 20px var(--accent); animation: glow 1.5s infinite alternate;
-        }
+        .achievement-icon { background: var(--accent); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 0 20px var(--accent); animation: glow 1.5s infinite alternate; }
         @keyframes glow { from { box-shadow: 0 0 5px var(--accent); } to { box-shadow: 0 0 25px var(--accent); } }
         .achievement-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #34d399; font-weight: 800; }
         .achievement-desc { font-size: 1rem; font-weight: 600; color: white; margin-top: 2px; }
     </style>
 </head>
 <body>
+
+    <audio id="adhan-audio" src="./adhan.mp3" preload="auto"></audio>
 
     <div id="achievement-banner">
         <div class="achievement-icon">🏆</div>
@@ -183,66 +144,39 @@
             </div>
         </div>
 
+        <div class="adhan-card">
+            <div class="adhan-info">
+                <span class="adhan-title">🕌 Auto-Play Adhan</span>
+                <span class="adhan-desc">Omar Hisham Al Arabi</span>
+                <button class="btn-test" onclick="document.getElementById('adhan-audio').play()">▶ Test Audio</button>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="adhan-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
         <div class="progress-card">
             <div class="progress-header">
                 <span class="progress-title">Ramadan Journey</span>
                 <span class="progress-count"><span id="fast-count">0</span> / 30</span>
             </div>
-            <div class="progress-track">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
+            <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
         </div>
 
         <h2 class="section-title">Daily Pillars</h2>
 
         <div style="display: flex; flex-direction: column; gap: 14px;">
-            <label class="task-card" id="card-fasting">
-                <input type="checkbox" class="task-box" id="task-fasting">
-                <div class="check-circle"></div>
-                <span class="task-text">Fasting Observed</span>
-                <div class="time-badge">Dawn to Dusk</div>
-            </label>
-            <label class="task-card" id="card-fajr">
-                <input type="checkbox" class="task-box" id="task-fajr">
-                <div class="check-circle"></div>
-                <span class="task-text">Fajr</span>
-                <div class="time-badge" id="label-fajr">--:--</div>
-            </label>
-            <label class="task-card" id="card-dhuhr">
-                <input type="checkbox" class="task-box" id="task-dhuhr">
-                <div class="check-circle"></div>
-                <span class="task-text">Dhuhr</span>
-                <div class="time-badge" id="label-dhuhr">--:--</div>
-            </label>
-            <label class="task-card" id="card-asr">
-                <input type="checkbox" class="task-box" id="task-asr">
-                <div class="check-circle"></div>
-                <span class="task-text">Asr</span>
-                <div class="time-badge" id="label-asr">--:--</div>
-            </label>
-            <label class="task-card" id="card-maghrib">
-                <input type="checkbox" class="task-box" id="task-maghrib">
-                <div class="check-circle"></div>
-                <span class="task-text">Maghrib</span>
-                <div class="time-badge" id="label-maghrib">--:--</div>
-            </label>
-            <label class="task-card" id="card-isha">
-                <input type="checkbox" class="task-box" id="task-isha">
-                <div class="check-circle"></div>
-                <span class="task-text">Isha</span>
-                <div class="time-badge" id="label-isha">--:--</div>
-            </label>
-            <label class="task-card" id="card-tarawih">
-                <input type="checkbox" class="task-box" id="task-tarawih">
-                <div class="check-circle"></div>
-                <span class="task-text">Tarawih</span>
-                <div class="time-badge">After Isha</div>
-            </label>
+            <label class="task-card" id="card-fasting"><input type="checkbox" class="task-box" id="task-fasting"><div class="check-circle"></div><span class="task-text">Fasting Observed</span><div class="time-badge">Dawn to Dusk</div></label>
+            <label class="task-card" id="card-fajr"><input type="checkbox" class="task-box" id="task-fajr"><div class="check-circle"></div><span class="task-text">Fajr</span><div class="time-badge" id="label-fajr">--:--</div></label>
+            <label class="task-card" id="card-dhuhr"><input type="checkbox" class="task-box" id="task-dhuhr"><div class="check-circle"></div><span class="task-text">Dhuhr</span><div class="time-badge" id="label-dhuhr">--:--</div></label>
+            <label class="task-card" id="card-asr"><input type="checkbox" class="task-box" id="task-asr"><div class="check-circle"></div><span class="task-text">Asr</span><div class="time-badge" id="label-asr">--:--</div></label>
+            <label class="task-card" id="card-maghrib"><input type="checkbox" class="task-box" id="task-maghrib"><div class="check-circle"></div><span class="task-text">Maghrib</span><div class="time-badge" id="label-maghrib">--:--</div></label>
+            <label class="task-card" id="card-isha"><input type="checkbox" class="task-box" id="task-isha"><div class="check-circle"></div><span class="task-text">Isha</span><div class="time-badge" id="label-isha">--:--</div></label>
+            <label class="task-card" id="card-tarawih"><input type="checkbox" class="task-box" id="task-tarawih"><div class="check-circle"></div><span class="task-text">Tarawih</span><div class="time-badge">After Isha</div></label>
         </div>
 
-        <div class="dev-credit">
-            Developed by <span>WAR SAKEEB</span>
-        </div>
+        <div class="dev-credit">Developed by <span>WAR SAKEEB</span></div>
     </div>
 
     <div class="bottom-nav">
@@ -252,9 +186,7 @@
 
     <div id="quran-modal">
         <div class="quran-header">
-            <button class="back-btn" id="quran-back-btn" onclick="handleQuranBack()">
-                <span style="font-size: 1.3rem;">←</span> <span id="back-text">Close</span>
-            </button>
+            <button class="back-btn" id="quran-back-btn" onclick="handleQuranBack()"><span style="font-size: 1.3rem;">←</span> <span id="back-text">Close</span></button>
             <h2 id="quran-title" style="font-size: 1.2rem; color: var(--text-main);">Al-Quran</h2>
         </div>
         <div id="surah-list" class="surah-list">Loading Surahs...</div>
@@ -263,7 +195,7 @@
 
     <script>
         // ==========================================
-        // 1. SMART OFFLINE TIME & LOCATION
+        // 1. SMART OFFLINE TIME & ADHAN LOGIC
         // ==========================================
         let apiTimes = null;
 
@@ -275,7 +207,6 @@
             const savedTimesDate = localStorage.getItem('ram_times_date');
             const savedTimes = localStorage.getItem('ram_saved_times');
 
-            // SMART OFFLINE CHECK
             if (savedTimesDate === todayStr && savedTimes) {
                 apiTimes = JSON.parse(savedTimes);
                 displayTimes();
@@ -286,21 +217,34 @@
                         (pos) => { fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "📍 Auto"); }, 
                         (err) => { fetchPrayerTimes(28.6139, 77.2090, "📍 India"); }
                     );
-                } else {
-                    fetchPrayerTimes(28.6139, 77.2090, "📍 India");
-                }
+                } else { fetchPrayerTimes(28.6139, 77.2090, "📍 India"); }
             }
             loadDashboardMemory();
+            setupAdhanAudio();
+        }
+
+        // --- Adhan Audio Setup ---
+        function setupAdhanAudio() {
+            const toggle = document.getElementById('adhan-toggle');
+            const audio = document.getElementById('adhan-audio');
+            
+            toggle.checked = localStorage.getItem('ram_adhan_enabled') === 'true';
+            
+            toggle.addEventListener('change', () => {
+                localStorage.setItem('ram_adhan_enabled', toggle.checked);
+                if(toggle.checked) {
+                    // Mobile browsers require a physical tap before they allow audio to autoplay later
+                    audio.play().then(() => audio.pause()).catch(e => console.log("Audio needs interaction"));
+                }
+            });
         }
 
         function format12Hour(timeStr) {
             if(!timeStr) return '--:--';
             let cleanTime = timeStr.split(' ')[0]; 
             let [h, m] = cleanTime.split(':');
-            let hours = parseInt(h);
-            let ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; 
+            let hours = parseInt(h); let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12; hours = hours ? hours : 12; 
             return `${hours}:${m} ${ampm}`;
         }
 
@@ -321,22 +265,13 @@
                 const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1`);
                 const data = await res.json();
                 apiTimes = data.data.timings;
-                
-                // SAVE TO PHONE MEMORY FOR OFFLINE
                 localStorage.setItem('ram_saved_times', JSON.stringify(apiTimes));
                 localStorage.setItem('ram_times_date', new Date().toDateString());
-                
                 document.getElementById('location-badge').innerText = badgeText;
                 displayTimes();
-
             } catch (e) { 
-                console.error("Could not fetch times");
                 const oldTimes = localStorage.getItem('ram_saved_times');
-                if (oldTimes) {
-                    apiTimes = JSON.parse(oldTimes);
-                    displayTimes();
-                    document.getElementById('location-badge').innerText = "📍 Offline Mode";
-                }
+                if (oldTimes) { apiTimes = JSON.parse(oldTimes); displayTimes(); document.getElementById('location-badge').innerText = "📍 Offline Mode"; }
             }
         }
 
@@ -344,8 +279,7 @@
             if (!apiTimes) return;
             const now = new Date();
             const createDate = (t) => { const [h, m] = t.split(':'); const d = new Date(); d.setHours(h, m, 0, 0); return d; };
-            const suhoorTime = createDate(apiTimes.Fajr);
-            const iftarTime = createDate(apiTimes.Maghrib);
+            const suhoorTime = createDate(apiTimes.Fajr); const iftarTime = createDate(apiTimes.Maghrib);
             let targetTime; let statusText = "";
 
             if (now < suhoorTime) { targetTime = suhoorTime; statusText = "Time until Suhoor ends"; } 
@@ -358,59 +292,58 @@
             const m = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
             const s = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
             document.getElementById('main-clock').innerText = `${h}:${m}:${s}`;
+
+            // --- AUTO-PLAY ADHAN CHECK ---
+            const toggle = document.getElementById('adhan-toggle');
+            if (toggle.checked) {
+                // Get current HH:MM in 24h format
+                const current24h = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                // Extract clean prayer times (removes timezone strings)
+                const cleanTimes = [
+                    apiTimes.Fajr.split(' ')[0], apiTimes.Dhuhr.split(' ')[0], 
+                    apiTimes.Asr.split(' ')[0], apiTimes.Maghrib.split(' ')[0], apiTimes.Isha.split(' ')[0]
+                ];
+
+                // If current time perfectly matches a prayer time AND we haven't played it yet this minute
+                if (cleanTimes.includes(current24h) && localStorage.getItem('last_adhan_played') !== current24h) {
+                    const audio = document.getElementById('adhan-audio');
+                    audio.currentTime = 0; // reset to start
+                    audio.play().catch(e => console.log("Autoplay blocked by browser"));
+                    localStorage.setItem('last_adhan_played', current24h); // Prevent playing 60 times in one minute!
+                }
+            }
         }
 
         // ==========================================
-        // 2. UNIFIED TASK LOGIC, REWARD & 30-DAY PROGRESS
+        // 2. DASHBOARD & REWARDS
         // ==========================================
         let totalFasts = parseInt(localStorage.getItem('ram_total_fasts')) || 0;
 
         function loadDashboardMemory() {
             const todayStr = new Date().toDateString();
             const savedDate = localStorage.getItem('ram_last_date');
-
             if (savedDate !== todayStr) {
                 const taskIds = ['fasting', 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tarawih'];
                 taskIds.forEach(id => localStorage.setItem(`ram_premium_${id}`, 'false'));
                 localStorage.setItem('ram_last_date', todayStr); 
             }
-
             updateProgressUI();
-
             const taskIds = ['fasting', 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tarawih'];
-            
             taskIds.forEach(id => {
-                const box = document.getElementById(`task-${id}`);
-                const card = document.getElementById(`card-${id}`);
-                
-                if(localStorage.getItem(`ram_premium_${id}`) === 'true') {
-                    box.checked = true;
-                    card.classList.add('completed');
-                }
-                
+                const box = document.getElementById(`task-${id}`); const card = document.getElementById(`card-${id}`);
+                if(localStorage.getItem(`ram_premium_${id}`) === 'true') { box.checked = true; card.classList.add('completed'); }
                 box.addEventListener('change', () => {
                     localStorage.setItem(`ram_premium_${id}`, box.checked);
                     if(box.checked) {
                         card.classList.add('completed');
-                        
                         if(id === 'fasting') {
-                            if (totalFasts < 30) {
-                                totalFasts++;
-                                localStorage.setItem('ram_total_fasts', totalFasts);
-                                updateProgressUI();
-                            }
+                            if (totalFasts < 30) { totalFasts++; localStorage.setItem('ram_total_fasts', totalFasts); updateProgressUI(); }
                             triggerAchievement();
                         }
                     } else {
                         card.classList.remove('completed');
-                        
-                        if(id === 'fasting') {
-                            if (totalFasts > 0) {
-                                totalFasts--;
-                                localStorage.setItem('ram_total_fasts', totalFasts);
-                                updateProgressUI();
-                            }
-                        }
+                        if(id === 'fasting' && totalFasts > 0) { totalFasts--; localStorage.setItem('ram_total_fasts', totalFasts); updateProgressUI(); }
                     }
                 });
             });
@@ -418,133 +351,63 @@
 
         function updateProgressUI() {
             document.getElementById('fast-count').innerText = totalFasts;
-            const percentage = (totalFasts / 30) * 100;
-            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-fill').style.width = ((totalFasts / 30) * 100) + '%';
         }
 
         function triggerAchievement() {
-            const banner = document.getElementById('achievement-banner');
-            banner.classList.add('show');
-            fireConfetti();
+            const banner = document.getElementById('achievement-banner'); banner.classList.add('show'); fireConfetti();
             setTimeout(() => { banner.classList.remove('show'); }, 4000);
         }
 
         function fireConfetti() {
             const colors = ['#059669', '#34d399', '#fcd34d', '#38bdf8'];
             for(let i=0; i<60; i++) {
-                const conf = document.createElement('div');
-                conf.classList.add('confetti');
-                conf.style.left = Math.random() * 100 + 'vw';
-                conf.style.top = '-20px';
-                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                document.body.appendChild(conf);
-
-                const drop = Math.random() * 700 + 300; 
-                const duration = Math.random() * 2500 + 1500;
-                conf.animate([
-                    { transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
-                    { transform: `translate3d(${Math.random()*200 - 100}px, ${drop}px, 0) rotate(${Math.random()*720}deg)`, opacity: 0 }
-                ], { duration: duration, easing: 'cubic-bezier(.37,0,.63,1)' });
-
+                const conf = document.createElement('div'); conf.classList.add('confetti');
+                conf.style.left = Math.random() * 100 + 'vw'; conf.style.top = '-20px';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; document.body.appendChild(conf);
+                const drop = Math.random() * 700 + 300; const duration = Math.random() * 2500 + 1500;
+                conf.animate([ { transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 }, { transform: `translate3d(${Math.random()*200 - 100}px, ${drop}px, 0) rotate(${Math.random()*720}deg)`, opacity: 0 } ], { duration: duration, easing: 'cubic-bezier(.37,0,.63,1)' });
                 setTimeout(() => conf.remove(), duration);
             }
         }
 
         // ==========================================
-        // 3. QURAN NAVIGATION
+        // 3. QURAN NAVIGATION & INIT
         // ==========================================
-        const modal = document.getElementById('quran-modal');
-        const listDiv = document.getElementById('surah-list');
-        const contentDiv = document.getElementById('surah-content');
-        const titleText = document.getElementById('quran-title');
-        const backBtnText = document.getElementById('back-text');
-        const navHome = document.getElementById('btn-home');
-        const navQuran = document.getElementById('btn-quran');
-        let currentQuranView = 'list';
+        const modal = document.getElementById('quran-modal'); const listDiv = document.getElementById('surah-list'); const contentDiv = document.getElementById('surah-content');
+        const titleText = document.getElementById('quran-title'); const backBtnText = document.getElementById('back-text');
+        const navHome = document.getElementById('btn-home'); const navQuran = document.getElementById('btn-quran'); let currentQuranView = 'list';
 
-        function openQuran() {
-            navHome.classList.remove('active');
-            navQuran.classList.add('active');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.style.opacity = '1', 10);
-            if(listDiv.innerHTML === "Loading Surahs...") fetchSurahList();
-            currentQuranView = 'list'; backBtnText.innerText = "Close"; titleText.innerText = "Al-Quran";
-        }
-
-        function openDashboard() {
-            navQuran.classList.remove('active');
-            navHome.classList.add('active');
-            modal.style.opacity = '0';
-            setTimeout(() => modal.style.display = 'none', 300);
-        }
-
-        function handleQuranBack() {
-            if (currentQuranView === 'surah') {
-                contentDiv.style.display = 'none'; listDiv.style.display = 'flex';
-                titleText.innerText = "Al-Quran"; backBtnText.innerText = "Close"; currentQuranView = 'list';
-            } else { openDashboard(); }
-        }
+        function openQuran() { navHome.classList.remove('active'); navQuran.classList.add('active'); modal.style.display = 'flex'; setTimeout(() => modal.style.opacity = '1', 10); if(listDiv.innerHTML === "Loading Surahs...") fetchSurahList(); currentQuranView = 'list'; backBtnText.innerText = "Close"; titleText.innerText = "Al-Quran"; }
+        function openDashboard() { navQuran.classList.remove('active'); navHome.classList.add('active'); modal.style.opacity = '0'; setTimeout(() => modal.style.display = 'none', 300); }
+        function handleQuranBack() { if (currentQuranView === 'surah') { contentDiv.style.display = 'none'; listDiv.style.display = 'flex'; titleText.innerText = "Al-Quran"; backBtnText.innerText = "Close"; currentQuranView = 'list'; } else { openDashboard(); } }
 
         async function fetchSurahList() {
             try {
-                const res = await fetch('https://api.alquran.cloud/v1/surah');
-                const data = await res.json();
-                listDiv.innerHTML = ""; 
+                const res = await fetch('https://api.alquran.cloud/v1/surah'); const data = await res.json(); listDiv.innerHTML = ""; 
                 data.data.forEach(s => {
-                    const div = document.createElement('div');
-                    div.className = 'surah-card';
-                    div.innerHTML = `
-                        <div>
-                            <strong style="font-size: 1.15rem; color: #0f172a;">${s.number}. ${s.englishName}</strong><br>
-                            <small style="color: #64748b; font-size: 0.9rem;">${s.englishNameTranslation} • ${s.numberOfAyahs} Ayahs</small>
-                        </div>
-                        <div class="surah-name-ar">${s.name}</div>
-                    `;
-                    div.onclick = () => loadSurahText(s.number, s.englishName);
-                    listDiv.appendChild(div);
+                    const div = document.createElement('div'); div.className = 'surah-card';
+                    div.innerHTML = `<div><strong style="font-size: 1.15rem; color: #0f172a;">${s.number}. ${s.englishName}</strong><br><small style="color: #64748b; font-size: 0.9rem;">${s.englishNameTranslation} • ${s.numberOfAyahs} Ayahs</small></div><div class="surah-name-ar">${s.name}</div>`;
+                    div.onclick = () => loadSurahText(s.number, s.englishName); listDiv.appendChild(div);
                 });
             } catch (e) { listDiv.innerHTML = "Error loading Quran."; }
         }
 
         async function loadSurahText(num, name) {
-            currentQuranView = 'surah'; listDiv.style.display = 'none'; contentDiv.style.display = 'block';
-            contentDiv.innerHTML = `<h3 style="text-align:center; padding: 40px; color: #64748b;">Loading ${name}...</h3>`;
-            titleText.innerText = name; backBtnText.innerText = "Surahs";
-
+            currentQuranView = 'surah'; listDiv.style.display = 'none'; contentDiv.style.display = 'block'; contentDiv.innerHTML = `<h3 style="text-align:center; padding: 40px; color: #64748b;">Loading ${name}...</h3>`; titleText.innerText = name; backBtnText.innerText = "Surahs";
             try {
-                const resAr = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`);
-                const resEn = await fetch(`https://api.alquran.cloud/v1/surah/${num}/en.asad`);
-                const dataAr = await resAr.json(); const dataEn = await resEn.json();
-
-                let html = '';
+                const resAr = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`); const resEn = await fetch(`https://api.alquran.cloud/v1/surah/${num}/en.asad`);
+                const dataAr = await resAr.json(); const dataEn = await resEn.json(); let html = '';
                 if(num !== 1 && num !== 9) html += `<div class="ayah-block"><div class="ayah-ar" style="text-align:center; color: #059669;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div></div>`;
-
                 const ayahsAr = dataAr.data.ayahs; const ayahsEn = dataEn.data.ayahs;
-                for (let i = 0; i < ayahsAr.length; i++) {
-                    html += `
-                        <div class="ayah-block">
-                            <div class="ayah-ar">${ayahsAr[i].text} ﴾${i+1}﴿</div>
-                            <div class="ayah-en">${i+1}. ${ayahsEn[i].text}</div>
-                        </div>
-                    `;
-                }
+                for (let i = 0; i < ayahsAr.length; i++) { html += `<div class="ayah-block"><div class="ayah-ar">${ayahsAr[i].text} ﴾${i+1}﴿</div><div class="ayah-en">${i+1}. ${ayahsEn[i].text}</div></div>`; }
                 contentDiv.innerHTML = html; modal.scrollTop = 0; 
             } catch(e) { contentDiv.innerHTML = "Failed to load."; }
         }
 
-        // Start Clock & App
         initializeApp(); setInterval(updateClock, 1000);
 
-        // ==========================================
-        // 4. OFFLINE SERVICE WORKER REGISTRATION
-        // ==========================================
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('App is ready for offline use!'))
-                    .catch(err => console.log('Offline setup failed: ', err));
-            });
-        }
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(err => console.log(err)); }); }
     </script>
 </body>
 </html>
