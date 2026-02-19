@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ramadan-pro-v2'; // Upgraded cache version
+const CACHE_NAME = 'ramadan-pro-v3'; // Upgraded cache version
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
