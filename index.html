@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ramadan Tracker by WAR SAKEEB</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="manifest" href="./manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -34,12 +33,7 @@
         }
 
         .app-container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            animation: fadeIn 0.6s ease-out;
+            width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 24px; animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -55,12 +49,9 @@
 
         /* --- Hero Timer Card --- */
         .timer-card {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 32px; padding: 35px 25px; text-align: center;
-            box-shadow: var(--shadow); position: relative; overflow: hidden;
+            background: white; border: 1px solid var(--border-color); border-radius: 32px; padding: 35px 25px; 
+            text-align: center; box-shadow: var(--shadow); position: relative; overflow: hidden;
         }
-        
         .timer-subtitle { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 2px; margin-bottom: 12px;}
         .timer-display { font-size: 4rem; font-weight: 300; letter-spacing: -2px; color: var(--accent); margin-bottom: 25px; font-variant-numeric: tabular-nums; line-height: 1;}
         .time-split { display: flex; justify-content: center; gap: 50px; border-top: 1px solid #f1f5f9; padding-top: 25px; }
@@ -86,21 +77,15 @@
             display: flex; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);
         }
-        
         .task-card input { display: none; }
         
         .check-circle {
             width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid #cbd5e1; margin-right: 18px;
             display: flex; align-items: center; justify-content: center; transition: 0.3s; background: white; flex-shrink: 0;
         }
-        
         .task-text { font-size: 1.1rem; font-weight: 600; color: var(--text-main); transition: 0.3s; flex-grow: 1; }
         
-        /* The New Time Badge */
-        .time-badge {
-            background: #f1f5f9; color: var(--accent); font-size: 0.85rem; font-weight: 700;
-            padding: 6px 14px; border-radius: 20px; transition: 0.3s;
-        }
+        .time-badge { background: #f1f5f9; color: var(--accent); font-size: 0.85rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; transition: 0.3s; }
         
         /* Completed State */
         .task-card.completed { background: var(--accent-light); border-color: transparent; transform: scale(0.98); }
@@ -211,49 +196,42 @@
         <h2 class="section-title">Daily Pillars</h2>
 
         <div style="display: flex; flex-direction: column; gap: 14px;">
-            
             <label class="task-card" id="card-fasting">
                 <input type="checkbox" class="task-box" id="task-fasting">
                 <div class="check-circle"></div>
                 <span class="task-text">Fasting Observed</span>
                 <div class="time-badge">Dawn to Dusk</div>
             </label>
-
             <label class="task-card" id="card-fajr">
                 <input type="checkbox" class="task-box" id="task-fajr">
                 <div class="check-circle"></div>
                 <span class="task-text">Fajr</span>
                 <div class="time-badge" id="label-fajr">--:--</div>
             </label>
-
             <label class="task-card" id="card-dhuhr">
                 <input type="checkbox" class="task-box" id="task-dhuhr">
                 <div class="check-circle"></div>
                 <span class="task-text">Dhuhr</span>
                 <div class="time-badge" id="label-dhuhr">--:--</div>
             </label>
-
             <label class="task-card" id="card-asr">
                 <input type="checkbox" class="task-box" id="task-asr">
                 <div class="check-circle"></div>
                 <span class="task-text">Asr</span>
                 <div class="time-badge" id="label-asr">--:--</div>
             </label>
-
             <label class="task-card" id="card-maghrib">
                 <input type="checkbox" class="task-box" id="task-maghrib">
                 <div class="check-circle"></div>
                 <span class="task-text">Maghrib</span>
                 <div class="time-badge" id="label-maghrib">--:--</div>
             </label>
-
             <label class="task-card" id="card-isha">
                 <input type="checkbox" class="task-box" id="task-isha">
                 <div class="check-circle"></div>
                 <span class="task-text">Isha</span>
                 <div class="time-badge" id="label-isha">--:--</div>
             </label>
-
             <label class="task-card" id="card-tarawih">
                 <input type="checkbox" class="task-box" id="task-tarawih">
                 <div class="check-circle"></div>
@@ -265,7 +243,6 @@
         <div class="dev-credit">
             Developed by <span>WAR SAKEEB</span>
         </div>
-
     </div>
 
     <div class="bottom-nav">
@@ -286,7 +263,7 @@
 
     <script>
         // ==========================================
-        // 1. TIME, LOCATION & API
+        // 1. SMART OFFLINE TIME & LOCATION
         // ==========================================
         let apiTimes = null;
 
@@ -294,13 +271,24 @@
             const options = { weekday: 'long', month: 'long', day: 'numeric' };
             document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', options);
             
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => { fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude); document.getElementById('location-badge').innerText = "📍 Auto"; }, 
-                    (err) => { fetchPrayerTimes(28.6139, 77.2090); document.getElementById('location-badge').innerText = "📍 India"; }
-                );
+            const todayStr = new Date().toDateString();
+            const savedTimesDate = localStorage.getItem('ram_times_date');
+            const savedTimes = localStorage.getItem('ram_saved_times');
+
+            // SMART OFFLINE CHECK
+            if (savedTimesDate === todayStr && savedTimes) {
+                apiTimes = JSON.parse(savedTimes);
+                displayTimes();
+                document.getElementById('location-badge').innerText = "📍 Saved Offline";
             } else {
-                fetchPrayerTimes(28.6139, 77.2090);
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => { fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude, "📍 Auto"); }, 
+                        (err) => { fetchPrayerTimes(28.6139, 77.2090, "📍 India"); }
+                    );
+                } else {
+                    fetchPrayerTimes(28.6139, 77.2090, "📍 India");
+                }
             }
             loadDashboardMemory();
         }
@@ -316,22 +304,40 @@
             return `${hours}:${m} ${ampm}`;
         }
 
-        async function fetchPrayerTimes(lat, lng) {
+        function displayTimes() {
+            if(!apiTimes) return;
+            document.getElementById('time-suhoor').innerText = format12Hour(apiTimes.Fajr);
+            document.getElementById('time-iftar').innerText = format12Hour(apiTimes.Maghrib);
+            document.getElementById('label-fajr').innerText = format12Hour(apiTimes.Fajr);
+            document.getElementById('label-dhuhr').innerText = format12Hour(apiTimes.Dhuhr);
+            document.getElementById('label-asr').innerText = format12Hour(apiTimes.Asr);
+            document.getElementById('label-maghrib').innerText = format12Hour(apiTimes.Maghrib);
+            document.getElementById('label-isha').innerText = format12Hour(apiTimes.Isha);
+        }
+
+        async function fetchPrayerTimes(lat, lng, badgeText) {
             try {
+                document.getElementById('location-badge').innerText = "Syncing...";
                 const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1`);
                 const data = await res.json();
                 apiTimes = data.data.timings;
                 
-                document.getElementById('time-suhoor').innerText = format12Hour(apiTimes.Fajr);
-                document.getElementById('time-iftar').innerText = format12Hour(apiTimes.Maghrib);
+                // SAVE TO PHONE MEMORY FOR OFFLINE
+                localStorage.setItem('ram_saved_times', JSON.stringify(apiTimes));
+                localStorage.setItem('ram_times_date', new Date().toDateString());
+                
+                document.getElementById('location-badge').innerText = badgeText;
+                displayTimes();
 
-                document.getElementById('label-fajr').innerText = format12Hour(apiTimes.Fajr);
-                document.getElementById('label-dhuhr').innerText = format12Hour(apiTimes.Dhuhr);
-                document.getElementById('label-asr').innerText = format12Hour(apiTimes.Asr);
-                document.getElementById('label-maghrib').innerText = format12Hour(apiTimes.Maghrib);
-                document.getElementById('label-isha').innerText = format12Hour(apiTimes.Isha);
-
-            } catch (e) { console.error("Could not fetch times"); }
+            } catch (e) { 
+                console.error("Could not fetch times");
+                const oldTimes = localStorage.getItem('ram_saved_times');
+                if (oldTimes) {
+                    apiTimes = JSON.parse(oldTimes);
+                    displayTimes();
+                    document.getElementById('location-badge').innerText = "📍 Offline Mode";
+                }
+            }
         }
 
         function updateClock() {
@@ -526,17 +532,19 @@
             } catch(e) { contentDiv.innerHTML = "Failed to load."; }
         }
 
-        // Start
+        // Start Clock & App
         initializeApp(); setInterval(updateClock, 1000);
-        // Offline Service Worker Setup
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('App is ready for offline use!'))
-            .catch(err => console.log('Offline setup failed: ', err));
-    });
-}
 
+        // ==========================================
+        // 4. OFFLINE SERVICE WORKER REGISTRATION
+        // ==========================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('App is ready for offline use!'))
+                    .catch(err => console.log('Offline setup failed: ', err));
+            });
+        }
     </script>
 </body>
 </html>
