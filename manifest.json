@@ -1,15 +1,18 @@
 {
   "name": "Ramadan Tracker by WAR SAKEEB",
   "short_name": "Ramadan Pro",
+  "description": "A professional Ramadan tracker with Al-Quran and Adhan automation.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f8fafc",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
   "theme_color": "#059669",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/8114/8114131.png",
+      "src": "./app-icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
