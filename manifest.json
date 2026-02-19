@@ -1,0 +1,15 @@
+{
+  "name": "Ramadan Tracker by WAR SAKEEB",
+  "short_name": "Ramadan Pro",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/8114/8114131.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
