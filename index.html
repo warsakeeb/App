@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Tracker by WAR SAKEEB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-grad: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #059669; /* Premium Emerald */
+            --accent-light: #d1fae5;
+            --shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+            --border-color: rgba(0, 0, 0, 0.04);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-grad);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px 20px 100px 20px;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Header --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
+        .greeting h1 { font-size: 1.6rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        .greeting p { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+        .location-chip {
+            background: white; padding: 8px 14px; border-radius: 20px; border: 1px solid rgba(5, 150, 105, 0.1);
+            font-size: 0.75rem; font-weight: 600; color: var(--accent); box-shadow: 0 4px 15px rgba(5, 150, 105, 0.05);
+        }
+
+        /* --- Hero Timer Card --- */
+        .timer-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 32px; padding: 35px 25px; text-align: center;
+            box-shadow: var(--shadow); position: relative; overflow: hidden;
+        }
+        
+        .timer-subtitle { font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 2px; margin-bottom: 12px;}
+        .timer-display { font-size: 4rem; font-weight: 300; letter-spacing: -2px; color: var(--accent); margin-bottom: 25px; font-variant-numeric: tabular-nums; line-height: 1;}
+        .time-split { display: flex; justify-content: center; gap: 50px; border-top: 1px solid #f1f5f9; padding-top: 25px; }
+        .time-block span { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
+        .time-block strong { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
+
+        /* --- 30 DAY PROGRESS TRACKER --- */
+        .progress-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px;
+            padding: 22px 25px; box-shadow: var(--shadow); backdrop-filter: blur(10px);
+        }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .progress-title { font-weight: 600; color: var(--text-main); font-size: 1.1rem; }
+        .progress-count { font-size: 0.9rem; color: var(--accent); font-weight: 700; background: var(--accent-light); padding: 5px 12px; border-radius: 12px; }
+        .progress-track { height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; border-radius: 10px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* --- Premium Unified Tasks List --- */
+        .section-title { font-size: 1.2rem; font-weight: 700; margin-bottom: -5px; color: var(--text-main); padding-left: 5px; }
+        
+        .task-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 22px; padding: 18px 22px;
+            display: flex; align-items: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px);
+        }
+        
+        .task-card input { display: none; }
+        
+        .check-circle {
+            width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid #cbd5e1; margin-right: 18px;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s; background: white; flex-shrink: 0;
+        }
+        
+        .task-text { font-size: 1.1rem; font-weight: 600; color: var(--text-main); transition: 0.3s; flex-grow: 1; }
+        
+        /* The New Time Badge */
+        .time-badge {
+            background: #f1f5f9; color: var(--accent); font-size: 0.85rem; font-weight: 700;
+            padding: 6px 14px; border-radius: 20px; transition: 0.3s;
+        }
+        
+        /* Completed State */
+        .task-card.completed { background: var(--accent-light); border-color: transparent; transform: scale(0.98); }
+        .task-card.completed .check-circle { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px rgba(5, 150, 105, 0.4); }
+        .task-card.completed .check-circle::after { content: ''; width: 6px; height: 12px; border: solid white; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); margin-bottom: 2px;}
+        .task-card.completed .task-text { color: var(--accent); text-decoration: line-through; opacity: 0.8;}
+        .task-card.completed .time-badge { background: transparent; color: var(--accent); opacity: 0.6; padding: 6px 0; }
+
+        /* --- Developer Credit --- */
+        .dev-credit { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 15px; margin-bottom: 25px; }
+        .dev-credit span { font-weight: 800; color: var(--accent); letter-spacing: 0.5px; }
+
+        /* --- Bottom Navigation --- */
+        .bottom-nav {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
+            display: flex; justify-content: space-around; width: 90%; max-width: 380px;
+            padding: 12px 15px; border-radius: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            border: 1px solid rgba(0,0,0,0.05); z-index: 50;
+        }
+        .nav-btn {
+            background: none; border: none; font-family: inherit; font-size: 0.95rem; font-weight: 700;
+            color: var(--text-muted); display: flex; align-items: center; gap: 8px; cursor: pointer; 
+            padding: 12px 24px; border-radius: 25px; transition: 0.3s;
+        }
+        .nav-btn.active { background: var(--accent-light); color: var(--accent); }
+
+        /* --- Quran Reader --- */
+        #quran-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8fafc;
+            z-index: 100; overflow-y: auto; display: none; flex-direction: column; opacity: 0; transition: 0.3s; padding-bottom: 20px;
+        }
+        .quran-header {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 10;
+        }
+        .back-btn { background: #f1f5f9; border: none; padding: 10px 18px; border-radius: 14px; font-weight: 700; cursor: pointer; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
+        .surah-list { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+        .surah-card {
+            background: white; padding: 20px 24px; border-radius: 20px; box-shadow: var(--shadow);
+            border: 1px solid transparent; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+        }
+        .surah-name-ar { font-size: 1.6rem; font-weight: bold; color: var(--accent); }
+        #surah-content { padding: 20px; display: none; background: white; min-height: 100vh; }
+        .ayah-block { margin-bottom: 35px; border-bottom: 1px solid #f1f5f9; padding-bottom: 25px; }
+        .ayah-ar { font-size: 1.9rem; line-height: 2.3; text-align: right; direction: rtl; margin-bottom: 15px; color: var(--text-main); }
+        .ayah-en { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* --- GAMIFIED ACHIEVEMENT SYSTEM --- */
+        .confetti { position: fixed; width: 8px; height: 16px; opacity: 0; z-index: 1999; pointer-events: none; border-radius: 4px; }
+        
+        #achievement-banner {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            background: #0f172a; color: white; padding: 14px 24px; border-radius: 50px; display: flex; align-items: center; gap: 18px; 
+            box-shadow: 0 20px 40px rgba(5, 150, 105, 0.4); border: 2px solid var(--accent); z-index: 2000;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 90%; max-width: 380px;
+        }
+        #achievement-banner.show { top: 35px; }
+        
+        .achievement-icon {
+            background: var(--accent); width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+            box-shadow: 0 0 20px var(--accent); animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow { from { box-shadow: 0 0 5px var(--accent); } to { box-shadow: 0 0 25px var(--accent); } }
+        .achievement-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: #34d399; font-weight: 800; }
+        .achievement-desc { font-size: 1rem; font-weight: 600; color: white; margin-top: 2px; }
+    </style>
+</head>
+<body>
+
+    <div id="achievement-banner">
+        <div class="achievement-icon">🏆</div>
+        <div style="display: flex; flex-direction: column;">
+            <span class="achievement-title">Achievement Unlocked</span>
+            <span class="achievement-desc">Daily Fast Logged!</span>
+        </div>
+    </div>
+
+    <div class="app-container" id="main-app">
+        <header>
+            <div class="greeting">
+                <h1>Ramadan Tracker</h1>
+                <p id="today-date">Loading date...</p>
+            </div>
+            <div id="location-badge" class="location-chip">📍 Locating...</div>
+        </header>
+
+        <div class="timer-card">
+            <div class="timer-subtitle" id="timer-status">Calculating...</div>
+            <div class="timer-display" id="main-clock">00:00:00</div>
+            <div class="time-split">
+                <div class="time-block"><span>Suhoor Ends</span><strong id="time-suhoor">--:--</strong></div>
+                <div class="time-block"><span>Iftar Starts</span><strong id="time-iftar">--:--</strong></div>
+            </div>
+        </div>
+
+        <div class="progress-card">
+            <div class="progress-header">
+                <span class="progress-title">Ramadan Journey</span>
+                <span class="progress-count"><span id="fast-count">0</span> / 30</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Daily Pillars</h2>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+            
+            <label class="task-card" id="card-fasting">
+                <input type="checkbox" class="task-box" id="task-fasting">
+                <div class="check-circle"></div>
+                <span class="task-text">Fasting Observed</span>
+                <div class="time-badge">Dawn to Dusk</div>
+            </label>
+
+            <label class="task-card" id="card-fajr">
+                <input type="checkbox" class="task-box" id="task-fajr">
+                <div class="check-circle"></div>
+                <span class="task-text">Fajr</span>
+                <div class="time-badge" id="label-fajr">--:--</div>
+            </label>
+
+            <label class="task-card" id="card-dhuhr">
+                <input type="checkbox" class="task-box" id="task-dhuhr">
+                <div class="check-circle"></div>
+                <span class="task-text">Dhuhr</span>
+                <div class="time-badge" id="label-dhuhr">--:--</div>
+            </label>
+
+            <label class="task-card" id="card-asr">
+                <input type="checkbox" class="task-box" id="task-asr">
+                <div class="check-circle"></div>
+                <span class="task-text">Asr</span>
+                <div class="time-badge" id="label-asr">--:--</div>
+            </label>
+
+            <label class="task-card" id="card-maghrib">
+                <input type="checkbox" class="task-box" id="task-maghrib">
+                <div class="check-circle"></div>
+                <span class="task-text">Maghrib</span>
+                <div class="time-badge" id="label-maghrib">--:--</div>
+            </label>
+
+            <label class="task-card" id="card-isha">
+                <input type="checkbox" class="task-box" id="task-isha">
+                <div class="check-circle"></div>
+                <span class="task-text">Isha</span>
+                <div class="time-badge" id="label-isha">--:--</div>
+            </label>
+
+            <label class="task-card" id="card-tarawih">
+                <input type="checkbox" class="task-box" id="task-tarawih">
+                <div class="check-circle"></div>
+                <span class="task-text">Tarawih</span>
+                <div class="time-badge">After Isha</div>
+            </label>
+        </div>
+
+        <div class="dev-credit">
+            Developed by <span>WAR SAKEEB</span>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-btn active" id="btn-home" onclick="openDashboard()">📊 Dashboard</button>
+        <button class="nav-btn" id="btn-quran" onclick="openQuran()">📖 Al-Quran</button>
+    </div>
+
+    <div id="quran-modal">
+        <div class="quran-header">
+            <button class="back-btn" id="quran-back-btn" onclick="handleQuranBack()">
+                <span style="font-size: 1.3rem;">←</span> <span id="back-text">Close</span>
+            </button>
+            <h2 id="quran-title" style="font-size: 1.2rem; color: var(--text-main);">Al-Quran</h2>
+        </div>
+        <div id="surah-list" class="surah-list">Loading Surahs...</div>
+        <div id="surah-content"></div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. TIME, LOCATION & API
+        // ==========================================
+        let apiTimes = null;
+
+        function initializeApp() {
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', options);
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => { fetchPrayerTimes(pos.coords.latitude, pos.coords.longitude); document.getElementById('location-badge').innerText = "📍 Auto"; }, 
+                    (err) => { fetchPrayerTimes(28.6139, 77.2090); document.getElementById('location-badge').innerText = "📍 India"; }
+                );
+            } else {
+                fetchPrayerTimes(28.6139, 77.2090);
+            }
+            loadDashboardMemory();
+        }
+
+        function format12Hour(timeStr) {
+            if(!timeStr) return '--:--';
+            let cleanTime = timeStr.split(' ')[0]; 
+            let [h, m] = cleanTime.split(':');
+            let hours = parseInt(h);
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            return `${hours}:${m} ${ampm}`;
+        }
+
+        async function fetchPrayerTimes(lat, lng) {
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=1`);
+                const data = await res.json();
+                apiTimes = data.data.timings;
+                
+                document.getElementById('time-suhoor').innerText = format12Hour(apiTimes.Fajr);
+                document.getElementById('time-iftar').innerText = format12Hour(apiTimes.Maghrib);
+
+                document.getElementById('label-fajr').innerText = format12Hour(apiTimes.Fajr);
+                document.getElementById('label-dhuhr').innerText = format12Hour(apiTimes.Dhuhr);
+                document.getElementById('label-asr').innerText = format12Hour(apiTimes.Asr);
+                document.getElementById('label-maghrib').innerText = format12Hour(apiTimes.Maghrib);
+                document.getElementById('label-isha').innerText = format12Hour(apiTimes.Isha);
+
+            } catch (e) { console.error("Could not fetch times"); }
+        }
+
+        function updateClock() {
+            if (!apiTimes) return;
+            const now = new Date();
+            const createDate = (t) => { const [h, m] = t.split(':'); const d = new Date(); d.setHours(h, m, 0, 0); return d; };
+            const suhoorTime = createDate(apiTimes.Fajr);
+            const iftarTime = createDate(apiTimes.Maghrib);
+            let targetTime; let statusText = "";
+
+            if (now < suhoorTime) { targetTime = suhoorTime; statusText = "Time until Suhoor ends"; } 
+            else if (now < iftarTime) { targetTime = iftarTime; statusText = "Time until Iftar"; } 
+            else { targetTime = new Date(suhoorTime.getTime() + 86400000); statusText = "Time until next Suhoor"; }
+
+            document.getElementById('timer-status').innerText = statusText;
+            const diff = targetTime - now;
+            const h = Math.floor((diff / 3600000) % 24).toString().padStart(2, '0');
+            const m = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
+            const s = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
+            document.getElementById('main-clock').innerText = `${h}:${m}:${s}`;
+        }
+
+        // ==========================================
+        // 2. UNIFIED TASK LOGIC, REWARD & 30-DAY PROGRESS
+        // ==========================================
+        let totalFasts = parseInt(localStorage.getItem('ram_total_fasts')) || 0;
+
+        function loadDashboardMemory() {
+            const todayStr = new Date().toDateString();
+            const savedDate = localStorage.getItem('ram_last_date');
+
+            if (savedDate !== todayStr) {
+                const taskIds = ['fasting', 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tarawih'];
+                taskIds.forEach(id => localStorage.setItem(`ram_premium_${id}`, 'false'));
+                localStorage.setItem('ram_last_date', todayStr); 
+            }
+
+            updateProgressUI();
+
+            const taskIds = ['fasting', 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'tarawih'];
+            
+            taskIds.forEach(id => {
+                const box = document.getElementById(`task-${id}`);
+                const card = document.getElementById(`card-${id}`);
+                
+                if(localStorage.getItem(`ram_premium_${id}`) === 'true') {
+                    box.checked = true;
+                    card.classList.add('completed');
+                }
+                
+                box.addEventListener('change', () => {
+                    localStorage.setItem(`ram_premium_${id}`, box.checked);
+                    if(box.checked) {
+                        card.classList.add('completed');
+                        
+                        if(id === 'fasting') {
+                            if (totalFasts < 30) {
+                                totalFasts++;
+                                localStorage.setItem('ram_total_fasts', totalFasts);
+                                updateProgressUI();
+                            }
+                            triggerAchievement();
+                        }
+                    } else {
+                        card.classList.remove('completed');
+                        
+                        if(id === 'fasting') {
+                            if (totalFasts > 0) {
+                                totalFasts--;
+                                localStorage.setItem('ram_total_fasts', totalFasts);
+                                updateProgressUI();
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function updateProgressUI() {
+            document.getElementById('fast-count').innerText = totalFasts;
+            const percentage = (totalFasts / 30) * 100;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+        }
+
+        function triggerAchievement() {
+            const banner = document.getElementById('achievement-banner');
+            banner.classList.add('show');
+            fireConfetti();
+            setTimeout(() => { banner.classList.remove('show'); }, 4000);
+        }
+
+        function fireConfetti() {
+            const colors = ['#059669', '#34d399', '#fcd34d', '#38bdf8'];
+            for(let i=0; i<60; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('confetti');
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = '-20px';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(conf);
+
+                const drop = Math.random() * 700 + 300; 
+                const duration = Math.random() * 2500 + 1500;
+                conf.animate([
+                    { transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate3d(${Math.random()*200 - 100}px, ${drop}px, 0) rotate(${Math.random()*720}deg)`, opacity: 0 }
+                ], { duration: duration, easing: 'cubic-bezier(.37,0,.63,1)' });
+
+                setTimeout(() => conf.remove(), duration);
+            }
+        }
+
+        // ==========================================
+        // 3. QURAN NAVIGATION
+        // ==========================================
+        const modal = document.getElementById('quran-modal');
+        const listDiv = document.getElementById('surah-list');
+        const contentDiv = document.getElementById('surah-content');
+        const titleText = document.getElementById('quran-title');
+        const backBtnText = document.getElementById('back-text');
+        const navHome = document.getElementById('btn-home');
+        const navQuran = document.getElementById('btn-quran');
+        let currentQuranView = 'list';
+
+        function openQuran() {
+            navHome.classList.remove('active');
+            navQuran.classList.add('active');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.style.opacity = '1', 10);
+            if(listDiv.innerHTML === "Loading Surahs...") fetchSurahList();
+            currentQuranView = 'list'; backBtnText.innerText = "Close"; titleText.innerText = "Al-Quran";
+        }
+
+        function openDashboard() {
+            navQuran.classList.remove('active');
+            navHome.classList.add('active');
+            modal.style.opacity = '0';
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        function handleQuranBack() {
+            if (currentQuranView === 'surah') {
+                contentDiv.style.display = 'none'; listDiv.style.display = 'flex';
+                titleText.innerText = "Al-Quran"; backBtnText.innerText = "Close"; currentQuranView = 'list';
+            } else { openDashboard(); }
+        }
+
+        async function fetchSurahList() {
+            try {
+                const res = await fetch('https://api.alquran.cloud/v1/surah');
+                const data = await res.json();
+                listDiv.innerHTML = ""; 
+                data.data.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'surah-card';
+                    div.innerHTML = `
+                        <div>
+                            <strong style="font-size: 1.15rem; color: #0f172a;">${s.number}. ${s.englishName}</strong><br>
+                            <small style="color: #64748b; font-size: 0.9rem;">${s.englishNameTranslation} • ${s.numberOfAyahs} Ayahs</small>
+                        </div>
+                        <div class="surah-name-ar">${s.name}</div>
+                    `;
+                    div.onclick = () => loadSurahText(s.number, s.englishName);
+                    listDiv.appendChild(div);
+                });
+            } catch (e) { listDiv.innerHTML = "Error loading Quran."; }
+        }
+
+        async function loadSurahText(num, name) {
+            currentQuranView = 'surah'; listDiv.style.display = 'none'; contentDiv.style.display = 'block';
+            contentDiv.innerHTML = `<h3 style="text-align:center; padding: 40px; color: #64748b;">Loading ${name}...</h3>`;
+            titleText.innerText = name; backBtnText.innerText = "Surahs";
+
+            try {
+                const resAr = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`);
+                const resEn = await fetch(`https://api.alquran.cloud/v1/surah/${num}/en.asad`);
+                const dataAr = await resAr.json(); const dataEn = await resEn.json();
+
+                let html = '';
+                if(num !== 1 && num !== 9) html += `<div class="ayah-block"><div class="ayah-ar" style="text-align:center; color: #059669;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div></div>`;
+
+                const ayahsAr = dataAr.data.ayahs; const ayahsEn = dataEn.data.ayahs;
+                for (let i = 0; i < ayahsAr.length; i++) {
+                    html += `
+                        <div class="ayah-block">
+                            <div class="ayah-ar">${ayahsAr[i].text} ﴾${i+1}﴿</div>
+                            <div class="ayah-en">${i+1}. ${ayahsEn[i].text}</div>
+                        </div>
+                    `;
+                }
+                contentDiv.innerHTML = html; modal.scrollTop = 0; 
+            } catch(e) { contentDiv.innerHTML = "Failed to load."; }
+        }
+
+        // Start
+        initializeApp(); setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
